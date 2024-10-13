@@ -9,10 +9,10 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-      <ToastContainer theme="colored"/>
+      <ToastContainer  autoClose={3000} newestOnTop={true} pauseOnHover theme="colored"/>
       <Routes>
         <Route path="/" element={<Login/>}/>
-        <Route path="/admin" element={<AdminDashBoard/>}/>
+        <Route path="/admin/dashboard" element={<AdminDashBoard/>}/>
         <Route path="/staff" element={<StaffDashboard/>}/>
         <Route path="/librarian" element={<LibrarianDashboard/>}/>
       </Routes>

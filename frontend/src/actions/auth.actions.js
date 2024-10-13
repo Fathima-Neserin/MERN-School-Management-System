@@ -3,7 +3,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import { USER_LOGIN_FAIL, 
     USER_LOGIN_REQUEST, 
-    USER_LOGIN_SUCCESS } from "../constants/user.constants";
+    USER_LOGIN_SUCCESS, 
+    USER_LOGOUT} from "../constants/user.constants";
 
 export const LOGIN = ({credentials, navigate}) => async (dispatch) => {
     try {        
@@ -20,11 +21,6 @@ export const LOGIN = ({credentials, navigate}) => async (dispatch) => {
         },
              config);
         dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-
-        // const accessToken = data?.data?.token;
-        // sessionStorage.setItem("Token", accessToken);
-        // const accssID = data?.data?._id;
-        // sessionStorage.setItem("ID", accssID);
     
         sessionStorage.setItem('userInfo', JSON.stringify(data));
 
@@ -33,7 +29,7 @@ export const LOGIN = ({credentials, navigate}) => async (dispatch) => {
 
         if (role[0] === "Admin") {
             toast.success(`${credentials.username} logged in as Admin`);
-            redirectPath = "/admin";
+            redirectPath = "/admin/dashboard";
         } else if (role[0] === "Staff") {
             toast.success(`${credentials.username} logged in as Staff`);
             redirectPath = "/staff";
@@ -42,9 +38,9 @@ export const LOGIN = ({credentials, navigate}) => async (dispatch) => {
             redirectPath = "/librarian";
         }
 
-        // Ensure navigation happens after a short delay to allow toast to display
+        
         setTimeout(() => {
-            navigate(redirectPath); // Use navigate for redirection
+            navigate(redirectPath); 
         }, 1000);
 
     } catch (error) {
@@ -62,8 +58,15 @@ export const LOGIN = ({credentials, navigate}) => async (dispatch) => {
     }
 }
 
-export const LOGOUT = () => async (dispatch) => {
+export const LOGOUT = (navigate) => async (dispatch) => {
     sessionStorage.removeItem("userInfo");
-    // sessionStorage.removeItem("Token");
-    // sessionStorage.removeItem("ID");
-}
+
+    toast.warning("Logged out successfully");
+  
+    dispatch({ type: USER_LOGOUT });
+  
+    setTimeout(() => {
+      navigate("/");  
+    }, 2000); // 2 seconds delay
+  };
+  
