@@ -22,7 +22,7 @@ const SideBar = () => {
 
   // List of menu items
   const menuItems = [
-    { label: "Dashboard", icon: <RxDashboard className="text-lg" />, link: "/admin/dashboard" },
+    { label: "Dashboard", icon: <RxDashboard className="text-lg" />, link: "#" },
     { label: "Staffs", icon: <IoPeopleOutline className="text-lg" />, link: "#" },
     { label: "Librarian", icon: <IoPersonOutline className="text-lg" />, link: "#" },
     { label: "Students", icon: <FaChildren className="text-lg" />, link: "#" },
