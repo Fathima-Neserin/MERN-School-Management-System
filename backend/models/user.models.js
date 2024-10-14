@@ -15,6 +15,20 @@ const UserSchema = new mongoose.Schema({
      role:{
         type: [String],
         enum: ["Admin", "Staff", "Librarian"]
+     },
+     name:{
+        type: String
+     },
+     email:{
+        type: String
+     },
+     gender:{
+      type: String,
+      enum: ["Male", "Female"]
+     },
+     phoneNumber:{
+      type: String,
+      unique: true
      }
 },{timestamps:true})
 

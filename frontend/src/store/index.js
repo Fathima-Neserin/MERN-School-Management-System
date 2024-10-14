@@ -2,20 +2,37 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "../reducers/auth.reducers";
 import { thunk } from "redux-thunk"; 
 import { composeWithDevTools } from "redux-devtools-extension";
+import { userListReducer } from "../reducers/user.reducers";
 
-// Combine reducers if you have multiple ones
+// Combine reducers
 const reducer = {
     auth: authReducer,
+    userList: userListReducer
 };
 
-const initialState = {
-    loading: false,
-    userInfo: null,
+const userInfoFromStorage = sessionStorage.getItem("userInfo")
+  ? JSON.parse(sessionStorage.getItem("userInfo"))
+  : null;
+
+  const initialState = {
+    auth: {
+        userInfo: userInfoFromStorage, 
+        loading: false,
+        error: null,
+    },
+    userList: {
+        
+        loading: false,
+        staffs: [],
+        librarians: [],
+        error: null,
+    },
 };
 
 // Configure the store using Redux Toolkit
 const store = configureStore({
     reducer,
+    preloadedState: initialState,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
     devTools: composeWithDevTools(),
 });

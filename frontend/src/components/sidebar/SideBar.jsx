@@ -22,9 +22,9 @@ const SideBar = () => {
 
   // List of menu items
   const menuItems = [
-    { label: "Dashboard", icon: <RxDashboard className="text-lg" />, link: "#" },
-    { label: "Staffs", icon: <IoPeopleOutline className="text-lg" />, link: "#" },
-    { label: "Librarian", icon: <IoPersonOutline className="text-lg" />, link: "#" },
+    { label: "Dashboard", icon: <RxDashboard className="text-lg" />, link: "/admin/dashboard" },
+    { label: "Staffs", icon: <IoPeopleOutline className="text-lg" />, link: "/admin/staffs" },
+    { label: "Librarian", icon: <IoPersonOutline className="text-lg" />, link: "/admin/librarians" },
     { label: "Students", icon: <FaChildren className="text-lg" />, link: "#" },
     { label: "Logout", icon: <TbLogout className="text-lg" />, link: "/" }
   ];
@@ -37,13 +37,13 @@ const SideBar = () => {
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer" className="drawer-overlay"></label>
-        <div className="p-6 bg-base-200 w-80 min-h-full">
+        <div className="p-6 bg-gray-50 w-80 h-[100%]">
           {/* Header Section */}
           <div className="flex items-center space-x-8 mb-6">
-            <RiSchoolFill className="text-6xl text-indigo-500" />
+            <RiSchoolFill className="text-6xl text-indigo-950" />
             <div>
-              <span className="text-xl font-semibold block text-indigo-500">Teressa Memorial</span>
-              <span className="text-xl font-semibold block text-indigo-500">Higher Secondary School</span>
+              <span className="text-xl font-semibold block text-indigo-950">Teressa Memorial</span>
+              <span className="text-xl font-semibold block text-indigo-950">Higher Secondary School</span>
             </div>
           </div>
 

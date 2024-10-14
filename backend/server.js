@@ -9,6 +9,7 @@ const app = new express();
 const dbConnection = require('./config/db.config');
 
 const AuthRoutes = require ("./routes/auth.routes");
+const UserRoutes = require("./routes/user.routes");
 const { NotFound, ErrorHandler } = require("./middlewares/error.middlewares");
 
 const PORT = process.env.PORT;
@@ -22,7 +23,8 @@ app.use(cors({
     credentials:true
 }))
 
-app.use("/api/auth" , AuthRoutes);
+app.use("/api/auth", AuthRoutes);
+app.use("/api/user", UserRoutes);
 
 app.use(NotFound);
 app.use(ErrorHandler);
