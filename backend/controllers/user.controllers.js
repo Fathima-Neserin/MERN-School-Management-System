@@ -93,3 +93,28 @@ exports.updateExistingUser = asyncHandler(async(req, res) => {
         res.status(500).json({error: "Internal server error"})
     }
 })
+
+exports.removeExistingUser = asyncHandler(async (req, res) => {
+    try {
+    
+        const user = await User.findById(req.params.id);
+
+        if (user) {
+            const deleteUser = await user.deleteOne();
+            res.status(200).json({
+                success: true,
+                message: `${user.name} deleted successfully`,
+                deleteUser,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+    } catch (error) {
+    
+        console.error("Error while deleting user:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
