@@ -12,9 +12,13 @@ const AuthRoutes = require ("./routes/auth.routes");
 const UserRoutes = require("./routes/user.routes");
 const { NotFound, ErrorHandler } = require("./middlewares/error.middlewares");
 
+
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(express.urlencoded({extended:false}))
+
+
 app.use(cookieParser());
 app.use(morgan('dev'));
 

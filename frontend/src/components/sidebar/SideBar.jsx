@@ -42,8 +42,8 @@ const SideBar = () => {
           <div className="flex items-center space-x-8 mb-6">
             <RiSchoolFill className="text-6xl text-indigo-950" />
             <div>
-              <span className="text-xl font-semibold block text-indigo-950">Teressa Memorial</span>
-              <span className="text-xl font-semibold block text-indigo-950">Higher Secondary School</span>
+              <span className="text-xl font-bold block text-indigo-950">Teressa Memorial</span>
+              <span className="text-xl font-bold block text-indigo-950">Higher Secondary School</span>
             </div>
           </div>
 

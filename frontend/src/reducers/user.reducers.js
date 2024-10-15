@@ -4,7 +4,10 @@ import {
     LIBRARIANS_LIST_SUCCESS, 
     STAFFS_LIST_FAIL, 
     STAFFS_LIST_REQUEST, 
-    STAFFS_LIST_SUCCESS 
+    STAFFS_LIST_SUCCESS, 
+    USER_CREATE_FAIL, 
+    USER_CREATE_REQUEST,
+    USER_CREATE_SUCCESS
 } from "../constants/user.constants";
 
 const initialState = {
@@ -32,3 +35,16 @@ export const userListReducer = (state = initialState, action) => {
             return state;
     }
 };
+
+export const userCreateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_CREATE_REQUEST:
+            return {...state, loading:true};
+        case USER_CREATE_SUCCESS:
+            return {...state, loading:false, success:true};
+        case USER_CREATE_FAIL:
+            return {...state, loading:false, error:action.payload};
+        default:
+            return state;
+    }
+}
