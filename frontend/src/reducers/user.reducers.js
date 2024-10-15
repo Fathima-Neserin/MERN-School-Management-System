@@ -7,7 +7,10 @@ import {
     STAFFS_LIST_SUCCESS, 
     USER_CREATE_FAIL, 
     USER_CREATE_REQUEST,
-    USER_CREATE_SUCCESS
+    USER_CREATE_SUCCESS,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
+    USER_UPDATE_FAIL
 } from "../constants/user.constants";
 
 const initialState = {
@@ -43,6 +46,20 @@ export const userCreateReducer = (state = {}, action) => {
         case USER_CREATE_SUCCESS:
             return {...state, loading:false, success:true};
         case USER_CREATE_FAIL:
+            return {...state, loading:false, error:action.payload};
+        default:
+            return state;
+    }
+}
+
+
+export const userUpdateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_UPDATE_REQUEST:
+            return {...state, loading:true};
+        case USER_UPDATE_SUCCESS:
+            return {...state, loading:false, success:true};
+        case USER_UPDATE_FAIL:
             return {...state, loading:false, error:action.payload};
         default:
             return state;

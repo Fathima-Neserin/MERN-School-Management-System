@@ -2,13 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "../reducers/auth.reducers";
 import { thunk } from "redux-thunk"; 
 import { composeWithDevTools } from "redux-devtools-extension";
-import { userCreateReducer, userListReducer } from "../reducers/user.reducers";
+import { userCreateReducer, userListReducer, userUpdateReducer } from "../reducers/user.reducers";
 
 // Combine reducers
 const reducer = {
     auth: authReducer,
     userList: userListReducer,
-    userCreate: userCreateReducer
+    userCreate: userCreateReducer,
+    userUpdate: userUpdateReducer
 };
 
 const userInfoFromStorage = sessionStorage.getItem("userInfo")
@@ -28,6 +29,11 @@ const userInfoFromStorage = sessionStorage.getItem("userInfo")
         error: null,
     },
     userCreate: {
+        loading: false,
+        success: false,
+        error: null
+    },
+    userUpdate: {
         loading: false,
         success: false,
         error: null

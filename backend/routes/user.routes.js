@@ -1,6 +1,9 @@
 const express = require('express');
 const authMiddleware  = require('../middlewares/auth.middlewares');
-const { fetchStaffs, fetchLibrarians, createNewUser } = require('../controllers/user.controllers');
+const { fetchStaffs, 
+    fetchLibrarians, 
+    createNewUser, 
+    updateExistingUser } = require('../controllers/user.controllers');
 
 const router = express.Router();
 
@@ -9,6 +12,6 @@ router.get("/librarian", authMiddleware,fetchLibrarians);
 
 router.post("/newUser", authMiddleware, createNewUser);
 
-
+router.put("/edit/:id", authMiddleware, updateExistingUser);
 
 module.exports = router;     

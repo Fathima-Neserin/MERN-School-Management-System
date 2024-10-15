@@ -8,7 +8,10 @@ import {
     STAFFS_LIST_SUCCESS,
     USER_CREATE_FAIL,
     USER_CREATE_REQUEST,
-    USER_CREATE_SUCCESS, 
+    USER_CREATE_SUCCESS,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS, 
      } 
 from "../constants/user.constants";
 import axios from 'axios';
@@ -112,19 +115,51 @@ export const listLibrarians = () => async(dispatch, getState) => {
             console.log("Form Data being sent:", formData);
 
             console.log('Authorization token:', userInfo.token);
+
             const { data } = await axios.post("/api/user/newUser",formData,config);
+
              dispatch({type: USER_CREATE_SUCCESS, payload: data});
             if(data.success){
                 toast.success(data.message);
             }
         } catch (error) {
             // console.error("Error in creating user:", error); 
-
-             const errorMsg = 
-        error.response && error.response.data.message
+        const errorMsg = 
+         error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
 
         dispatch({type: USER_CREATE_FAIL, payload: errorMsg})
         toast.error(errorMsg);
     }}
+
+    export const existingUserUpdation = (userId, formData) => async(dispatch, getState) =>{
+        try {
+            dispatch({type: USER_UPDATE_REQUEST});
+
+            const { auth: {userInfo} } = getState();
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`,
+                    "Content-Type": "application/json" 
+                },
+                withCredentials:true
+            };       
+            const { data } = await axios.put(`/api/user/edit/${userId}`,formData,config);
+
+            dispatch({type: USER_UPDATE_SUCCESS, payload: data});
+            if(data.success){
+                toast.success(data.message);
+            }
+            
+        } catch (error) {
+            const errorMsg = 
+            error.response && error.response.data.message
+           ? error.response.data.message
+           : error.message;
+   
+           dispatch({type: USER_UPDATE_FAIL, payload: errorMsg})
+           toast.error(errorMsg);
+        }
+    }
