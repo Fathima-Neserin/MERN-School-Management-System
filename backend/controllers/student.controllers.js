@@ -103,3 +103,28 @@ exports.editStudentDetails = asyncHandler(async(req, res) => {
     }
 })
 
+
+exports.deleteStudent = asyncHandler(async (req, res) => {
+    try {
+    
+        const student = await Student.findById(req.params.id);
+
+        if (student) {
+            const deleteStudent = await student.deleteOne();
+            res.status(200).json({
+                success: true,
+                message: `${student.studentName} deleted successfully`,
+                deleteStudent,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: "Student not found",
+            });
+        }
+    } catch (error) {
+    
+        console.error("Error while deleting student:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});

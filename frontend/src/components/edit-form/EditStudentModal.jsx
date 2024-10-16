@@ -55,7 +55,7 @@ const EditStudentModal = ({ showModal, closeModal, studentData }) => {
   if (!showModal) return null;
 
   return (
-    <dialog className="modal h-full" open>
+    <dialog className="modal" open>
       <div className="modal-box overflow-auto h-auto">
         <h3 className="font-bold text-lg">Edit Student</h3>
         <form className="py-4" onSubmit={handleEditStudent}>

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from "react-redux";
-import { listStudents } from '../../actions/student.actions';
+import { deleteStudent, listStudents } from '../../actions/student.actions';
 import EditStudentModal from '../edit-form/EditStudentModal';
+import DeleteModal from "../delete/DeleteModal";
+import { toast } from 'react-toastify';
 
 
 const StudentsList = () => {
@@ -18,6 +20,7 @@ const StudentsList = () => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     if (userInfo) {
@@ -32,9 +35,41 @@ const StudentsList = () => {
     setShowEditModal(true);
   };
 
+  const handleDeleteStudent = (student) => {
+    setSelectedStudent(student);
+    setShowDeleteModal(true);
+  };
+
   const closeModal = () => {
     setShowEditModal(false);
     setSelectedStudent(null); // Clear selected student data
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setSelectedStudent(null);
+  };
+
+  const confirmDelete = () => {
+    if (selectedStudent) {
+      dispatch(deleteStudent(selectedStudent._id))
+        .then(() => {
+          // Show success toast
+          toast.success('Student deleted successfully!', {
+            onClose: () => {
+              // Reload location after the toast is closed
+              window.location.reload();
+            },
+          });
+
+          setShowDeleteModal(false);
+          setSelectedStudent(null);
+        })
+        .catch(error => {
+          console.error("Failed to delete student", error);
+          toast.error('Failed to delete student.');
+        });
+    }
   };
 
   return (
@@ -72,7 +107,10 @@ const StudentsList = () => {
                 >
                   <FaEdit />
                 </button>
-                <button className="text-indigo-950 hover:text-red-700 mt-3 ml-2">
+                <button 
+                className="text-indigo-950 hover:text-red-700 mt-3 ml-2"
+                onClick={() => handleDeleteStudent(student)}
+                >
                   <FaTrash />
                 </button>
               </td>
@@ -87,6 +125,13 @@ const StudentsList = () => {
           studentData={selectedStudent} // Pass the selected student data to the modal
         />
       )}
+
+       <DeleteModal 
+        isOpen={showDeleteModal}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDelete}
+        toBeDeleted="student"
+      />
     </div>
   );
 };

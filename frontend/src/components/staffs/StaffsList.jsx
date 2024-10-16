@@ -107,6 +107,7 @@ const StaffsList = () => {
         isOpen={isDeleteModalOpen} 
         onClose={closeDeleteModal} 
         onConfirm={confirmDelete} 
+        toBeDeleted="staff"
       />
     </>
   );

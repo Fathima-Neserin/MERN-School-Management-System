@@ -101,6 +101,7 @@ const LibrariansList = () => {
         isOpen={isDeleteModalOpen} 
         onClose={closeDeleteModal} 
         onConfirm={confirmDelete} 
+        toBeDeleted="librarian"
         />
     </>
   );

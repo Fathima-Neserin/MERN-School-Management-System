@@ -1,4 +1,4 @@
-import { STUDENT_CREATE_FAIL, STUDENT_CREATE_REQUEST, STUDENT_CREATE_SUCCESS, STUDENT_UPDATE_FAIL, STUDENT_UPDATE_REQUEST, STUDENT_UPDATE_SUCCESS, STUDENTS_COUNT_FAIL, 
+import { STUDENT_CREATE_FAIL, STUDENT_CREATE_REQUEST, STUDENT_CREATE_SUCCESS, STUDENT_DELETE_FAIL, STUDENT_DELETE_REQUEST, STUDENT_DELETE_SUCCESS, STUDENT_UPDATE_FAIL, STUDENT_UPDATE_REQUEST, STUDENT_UPDATE_SUCCESS, STUDENTS_COUNT_FAIL, 
     STUDENTS_COUNT_REQUEST, 
     STUDENTS_COUNT_SUCCESS, 
     STUDENTS_LIST_FAIL, 
@@ -53,6 +53,19 @@ export const studentUpdateReducer = (state = {}, action) => {
             return {...state, loading:false, success:true};
         case STUDENT_UPDATE_FAIL:
             return {...state, loading:false, error:action.payload, success:false};
+        default:
+            return state;
+    }
+}
+
+export const studentDeleteReducer = (state = {}, action) => {
+    switch (action.type) {
+        case STUDENT_DELETE_REQUEST:
+            return {...state, loading:true};
+        case STUDENT_DELETE_SUCCESS:
+            return {...state, loading:false, success:true};
+        case STUDENT_DELETE_FAIL:
+            return {...state, loading:false, error:action.payload};
         default:
             return state;
     }

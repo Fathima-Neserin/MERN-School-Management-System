@@ -1,5 +1,5 @@
 import axios from "axios";
-import { STUDENT_CREATE_FAIL, STUDENT_CREATE_REQUEST, STUDENT_CREATE_SUCCESS, STUDENT_UPDATE_FAIL, STUDENT_UPDATE_REQUEST, STUDENT_UPDATE_SUCCESS, STUDENTS_COUNT_FAIL, STUDENTS_COUNT_REQUEST, STUDENTS_COUNT_SUCCESS, STUDENTS_LIST_FAIL, STUDENTS_LIST_REQUEST, STUDENTS_LIST_SUCCESS } from "../constants/student.constants";
+import { STUDENT_CREATE_FAIL, STUDENT_CREATE_REQUEST, STUDENT_CREATE_SUCCESS, STUDENT_DELETE_FAIL, STUDENT_DELETE_REQUEST, STUDENT_DELETE_SUCCESS, STUDENT_UPDATE_FAIL, STUDENT_UPDATE_REQUEST, STUDENT_UPDATE_SUCCESS, STUDENTS_COUNT_FAIL, STUDENTS_COUNT_REQUEST, STUDENTS_COUNT_SUCCESS, STUDENTS_LIST_FAIL, STUDENTS_LIST_REQUEST, STUDENTS_LIST_SUCCESS } from "../constants/student.constants";
 import { toast } from "react-toastify";
 
 export const listStudents = () => async(dispatch, getState) => {
@@ -146,4 +146,37 @@ export const studentUpdation = (studentID, formData) => async(dispatch, getState
        toast.error(errorMsg);
        
     }}
+
+    
+ export const deleteStudent = (studentID) => async(dispatch, getState) => {
+    try {
+        dispatch({type: STUDENT_DELETE_REQUEST});
+
+        const { auth: {userInfo} } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+            withCredentials:true
+        };       
+
+        const { data } = await axios.delete(`/api/student/delete/${studentID}`,config);
+
+        dispatch({type: STUDENT_DELETE_SUCCESS,
+            payload: data
+        })
+        if(data.success){
+            toast.success(data.message);
+        }
+    } catch (error) {
+        const errorMsg = 
+        error.response && error.response.data.message
+       ? error.response.data.message
+       : error.message;
+
+       dispatch({type: STUDENT_DELETE_FAIL, payload: errorMsg})
+       toast.error(errorMsg);
+    }
+ }  
 
