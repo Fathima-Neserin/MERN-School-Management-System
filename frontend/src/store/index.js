@@ -6,7 +6,7 @@ import { userCountReducer, userCreateReducer,
     userDeleteReducer, 
     userListReducer, 
     userUpdateReducer } from "../reducers/user.reducers";
-import { studentCountReducer, studentCreateReducer, studentListReducer } from "../reducers/student.reducers";
+import { studentCountReducer, studentCreateReducer, studentListReducer, studentUpdateReducer } from "../reducers/student.reducers";
 
 // Combine reducers
 const reducer = {
@@ -18,7 +18,8 @@ const reducer = {
     userDelete: userDeleteReducer,
     studentList: studentListReducer,
     studentCount: studentCountReducer,
-    studentCreate: studentCreateReducer
+    studentCreate: studentCreateReducer,
+    studentUpdate: studentUpdateReducer
 };
 
 const userInfoFromStorage = sessionStorage.getItem("userInfo")
@@ -73,6 +74,11 @@ const userInfoFromStorage = sessionStorage.getItem("userInfo")
         success: false,
         error: null
     },
+    studentUpdate: {
+        loading: false,
+        success: false,
+        error: null
+    }
 };
 
 // Configure the store using Redux Toolkit

@@ -221,7 +221,7 @@ export const createNewUserAction =  (formData) => async(dispatch, getState) =>{
         toast.error(errorMsg);
     }}
 
-    export const existingUserUpdation = (userId, formData) => async(dispatch, getState) =>{
+ export const existingUserUpdation = (userId, formData) => async(dispatch, getState) =>{
         try {
             dispatch({type: USER_UPDATE_REQUEST});
 

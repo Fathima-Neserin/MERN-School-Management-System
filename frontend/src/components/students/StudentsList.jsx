@@ -3,6 +3,7 @@ import { FaEdit } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from "react-redux";
 import { listStudents } from '../../actions/student.actions';
+import EditStudentModal from '../edit-form/EditStudentModal';
 
 
 const StudentsList = () => {
@@ -15,6 +16,9 @@ const StudentsList = () => {
 
   const { userInfo } = auth;
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
   useEffect(() => {
     if (userInfo) {
       dispatch(listStudents());
@@ -23,6 +27,15 @@ const StudentsList = () => {
     }
   }, [dispatch, userInfo]);
 
+  const handleEditStudent = (student) => {
+    setSelectedStudent(student);
+    setShowEditModal(true);
+  };
+
+  const closeModal = () => {
+    setShowEditModal(false);
+    setSelectedStudent(null); // Clear selected student data
+  };
 
   return (
     <div className="max-w-4xl mx-8 p-8">
@@ -33,7 +46,7 @@ const StudentsList = () => {
             <th className="py-6 px-8">ID</th>
             <th className="py-6 px-8">Name</th>
             <th className="py-6 px-8">Standard</th>
-            <th className="py-6 px-8">DOB</th>
+            <th className="py-6 px-8">Date Of Birth</th>
             <th className="py-6 px-8">Age</th>
             <th className="py-6 px-8">Place</th>
             <th className="py-6 px-8">Gender</th>
@@ -53,7 +66,10 @@ const StudentsList = () => {
               <td className="py-3 px-4">{student.gender}</td>
               <td className="py-3 px-4">{student.contactNumber}</td>
               <td className="py-3 px-4 flex space-x-6">
-                <button className="text-indigo-950 hover:text-blue-700 mt-3 ml-2">
+                <button 
+                className="text-indigo-950 hover:text-blue-700 mt-3 ml-2"
+                onClick={() => handleEditStudent(student)}
+                >
                   <FaEdit />
                 </button>
                 <button className="text-indigo-950 hover:text-red-700 mt-3 ml-2">
@@ -64,6 +80,13 @@ const StudentsList = () => {
           ))}
         </tbody>
       </table>
+      {showEditModal && (
+        <EditStudentModal
+          showModal={showEditModal}
+          closeModal={closeModal}
+          studentData={selectedStudent} // Pass the selected student data to the modal
+        />
+      )}
     </div>
   );
 };

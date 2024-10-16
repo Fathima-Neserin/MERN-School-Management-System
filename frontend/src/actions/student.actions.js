@@ -1,5 +1,5 @@
 import axios from "axios";
-import { STUDENT_CREATE_FAIL, STUDENT_CREATE_REQUEST, STUDENT_CREATE_SUCCESS, STUDENTS_COUNT_FAIL, STUDENTS_COUNT_REQUEST, STUDENTS_COUNT_SUCCESS, STUDENTS_LIST_FAIL, STUDENTS_LIST_REQUEST, STUDENTS_LIST_SUCCESS } from "../constants/student.constants";
+import { STUDENT_CREATE_FAIL, STUDENT_CREATE_REQUEST, STUDENT_CREATE_SUCCESS, STUDENT_UPDATE_FAIL, STUDENT_UPDATE_REQUEST, STUDENT_UPDATE_SUCCESS, STUDENTS_COUNT_FAIL, STUDENTS_COUNT_REQUEST, STUDENTS_COUNT_SUCCESS, STUDENTS_LIST_FAIL, STUDENTS_LIST_REQUEST, STUDENTS_LIST_SUCCESS } from "../constants/student.constants";
 import { toast } from "react-toastify";
 
 export const listStudents = () => async(dispatch, getState) => {
@@ -115,3 +115,35 @@ export const addNewStudentAction =  (formData) => async(dispatch, getState) =>{
     dispatch({type: STUDENT_CREATE_FAIL, payload: errorMsg})
     toast.error(errorMsg);
 }}
+
+export const studentUpdation = (studentID, formData) => async(dispatch, getState) =>{
+    try {
+        dispatch({type: STUDENT_UPDATE_REQUEST});
+
+        const { auth: {userInfo} } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                "Content-Type": "application/json" 
+            },
+            withCredentials:true
+        };       
+        const { data } = await axios.put(`/api/student/edit/${studentID}`,formData,config);
+
+        dispatch({type: STUDENT_UPDATE_SUCCESS, payload: data});
+        if(data.success){
+            toast.success(data.message);
+        }
+        
+    } catch (error) {
+        const errorMsg = 
+        error.response && error.response.data.message
+       ? error.response.data.message
+       : error.message;
+
+       dispatch({type: STUDENT_UPDATE_FAIL, payload: errorMsg})
+       toast.error(errorMsg);
+       
+    }}
+

@@ -63,3 +63,43 @@ exports.addNewStudent = asyncHandler(async(req, res) => {
         res.status(500).json({error: "Internal server error"})
     }
 })
+
+
+exports.editStudentDetails = asyncHandler(async(req, res) => {
+    try {
+        const { studentId, 
+            studentName, 
+            standard, 
+            age, 
+            dob, 
+            gender, 
+            place,
+            contactNumber } = req.body;
+
+        const student = await Student.findById(req.params.id);
+        
+        if (student) {
+            student.studentId = studentId || student.studentId;
+            student.studentName = studentName || student.studentName;
+            student.standard = standard || student.standard;
+            student.age = age || student.age;
+            student.dob = dob || student.dob;
+            student.gender = gender || student.gender;
+            student.place = place || student.place;
+            student.contactNumber = contactNumber || student.contactNumber;
+
+            const updatedStudent = await student.save();
+            res.status(200).json({
+                success: true,
+                message: `${student.studentName} updated successfully`,
+                updatedStudent
+            });
+        } else {
+            res.status(404).json({ message: "Student not found" });
+        }
+    } catch (error) {
+        console.error("Error while editing student : " , error.message );
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
