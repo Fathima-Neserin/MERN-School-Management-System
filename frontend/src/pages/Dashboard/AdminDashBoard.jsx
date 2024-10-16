@@ -75,13 +75,13 @@ const AdminDashBoard = () => {
           <div className="p-6 w-[50%] gap-10 flex flex-row">
             <Card
               title={"Staffs"}
-              count={countLoading ? "Loading..." : staffs} // Display staff count or loading state
+              count={countLoading ? "Loading..." : staffs}
               Icon={IoPeopleOutline}
               onClick={() => setShowStaffModal(true)} // Show Staff modal on button click
             />
             <Card
               title={"Librarians"}
-              count={countLoading ? "Loading..." : librarians} // Display librarian count or loading state
+              count={countLoading ? "Loading..." : librarians} 
               Icon={IoPersonOutline}
               onClick={() => setShowLibrarianModal(true)} // Show Librarian modal on button click
             />
