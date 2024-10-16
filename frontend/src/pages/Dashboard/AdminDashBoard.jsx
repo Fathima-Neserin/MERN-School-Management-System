@@ -9,6 +9,7 @@ import Select from "react-select";
 import { useDispatch, useSelector } from 'react-redux';
 import { countLibrarianUsers, countStaffUsers, createNewUserAction } from '../../actions/user.actions';
 import { countStudents } from '../../actions/student.actions';
+import AddStudentModal from '../../components/students/AddStudentModal';
 
 const roleOptions = [
   { value: 'Staff', label: 'Staff' },
@@ -51,6 +52,7 @@ const AdminDashBoard = () => {
 
   const [showStaffModal, setShowStaffModal] = useState(false);
   const [showLibrarianModal, setShowLibrarianModal] = useState(false);
+  const [showStudentModal, setShowStudentModal] = useState(false);
 
   const handleInputChange = (e) => {
     const name = e.target ? e.target.name : e.name;
@@ -93,12 +95,19 @@ const AdminDashBoard = () => {
               title={"Students"}
               count={countLoading ? "Loading..." : students}
               Icon={FaChildren}
+              onClick={() => setShowStudentModal(true)} // Show Student modal on button click
             />
           </div>
 
           <div className="min-h-screen flex items-center justify-center m-4">
             <Calendar />
           </div>
+           {/* Student Modal */}
+           <AddStudentModal 
+            showModal={showStudentModal} 
+            closeModal={() => setShowStudentModal(false)}
+            onSubmit={handleCreateUser}
+          />
 
           {/* Staff Modal */}
           {showStaffModal && (

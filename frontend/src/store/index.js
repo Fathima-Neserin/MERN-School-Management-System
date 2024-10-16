@@ -6,7 +6,7 @@ import { userCountReducer, userCreateReducer,
     userDeleteReducer, 
     userListReducer, 
     userUpdateReducer } from "../reducers/user.reducers";
-import { studentCountReducer, studentListReducer } from "../reducers/student.reducers";
+import { studentCountReducer, studentCreateReducer, studentListReducer } from "../reducers/student.reducers";
 
 // Combine reducers
 const reducer = {
@@ -17,7 +17,8 @@ const reducer = {
     userUpdate: userUpdateReducer,
     userDelete: userDeleteReducer,
     studentList: studentListReducer,
-    studentCount: studentCountReducer
+    studentCount: studentCountReducer,
+    studentCreate: studentCreateReducer
 };
 
 const userInfoFromStorage = sessionStorage.getItem("userInfo")
@@ -66,6 +67,11 @@ const userInfoFromStorage = sessionStorage.getItem("userInfo")
         loading: false,
         students: '',
         error: null,
+    },
+    studentCreate: {
+        loading: false,
+        success: false,
+        error: null
     },
 };
 
