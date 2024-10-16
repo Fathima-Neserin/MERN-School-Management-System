@@ -70,7 +70,7 @@ const AdminDashBoard = () => {
               onClick={() => setShowStaffModal(true)} // Show Staff modal on button click
             />
             <Card
-              title={"Librarian"}
+              title={"Librarians"}
               count={5}
               Icon={IoPersonOutline}
               onClick={() => setShowLibrarianModal(true)} // Show Librarian modal on button click

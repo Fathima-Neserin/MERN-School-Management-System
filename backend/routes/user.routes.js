@@ -15,6 +15,6 @@ router.post("/newUser", authMiddleware, createNewUser);
 
 router.put("/edit/:id", authMiddleware, updateExistingUser);
 
-router.delete("/remove/:id", removeExistingUser)
+router.delete("/remove/:id", authMiddleware, removeExistingUser)
 
 module.exports = router;     

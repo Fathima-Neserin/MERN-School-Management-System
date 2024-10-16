@@ -33,7 +33,7 @@ const Calendar = () => {
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
-    <div className="max-w-7xl mx-6 p-14 bg-white shadow-2xl">
+    <div className="max-w-7xl mx-6 p-14 bg-gray-100 shadow-2xl">
       <div className="flex justify-between items-center mb-8 gap-5">
         <button onClick={() => changeMonth(-1)} className="btn bg-indigo-950 text-white hover:bg-indigo-50 hover:text-black">Back</button>
         <h2 className="text-2xl font-bold">{currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}</h2>

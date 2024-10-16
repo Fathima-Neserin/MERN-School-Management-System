@@ -14,13 +14,11 @@ const genderOptions = [
   { value: 'Female', label: 'Female' }
 ];
 
-const EditUserModal = ({ user, isOpen, onClose }) => {
+const EditUserModal = ({ user, isOpen, onClose, onSuccess }) => {
 
   const dispatch = useDispatch();
 
   const userUpdate = useSelector((state) => state.userUpdate);
-
-  const { success } = userUpdate;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -46,11 +44,6 @@ const EditUserModal = ({ user, isOpen, onClose }) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (success) {
-      window.location.reload(); // Reload the page on success
-    }
-  }, [success]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -64,6 +57,7 @@ const EditUserModal = ({ user, isOpen, onClose }) => {
     dispatch(existingUserUpdation(user._id, formData))
     console.log("Updated user data:", formData);
     onClose(); // Close the modal after submission
+    onSuccess();
   };
 
   return (

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { listStaffs } from '../../actions/user.actions';
+import { deleteExistingUserAction, listStaffs } from '../../actions/user.actions';
 import Loading from "../../components/Loading/Loading";
 import DataListTable from '../data-list/DataListTable'; 
 import EditUserModal from '../edit-form/EditUserModal';
+import DeleteModal from '../delete/DeleteModal';
+import { toast } from 'react-toastify';
+
 
 const StaffsList = () => {
   const dispatch = useDispatch();
@@ -14,9 +17,12 @@ const StaffsList = () => {
 
   const { userInfo } = auth;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const userDelete = useSelector((state) => state.userDelete);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [deleteUserId, setDeleteUserId] = useState(null);
 
   useEffect(() => {
     if (userInfo) {
@@ -26,21 +32,55 @@ const StaffsList = () => {
     }
   }, [dispatch, userInfo]);
 
+
   const handleEditUser = (id) => {
-    const userToEdit = staffs.find((staff) => staff._id === id);
-    setSelectedUser(userToEdit); // Set the selected user data
-    setIsModalOpen(true); // Open the modal
+    try {
+      const userToEdit = staffs.find((staff) => staff._id === id);
+      setSelectedUser(userToEdit); // Set the selected user data
+      setIsModalOpen(true); // Open the modal
+    } catch (error) {
+      console.error("Error editing user:", error);
+    }
   };
 
   // Handle modal close
-  const closeModal = () => {
+  const closeEditModal = () => {
     setIsModalOpen(false);
     setSelectedUser(null); // Clear selected user when closing the modal
   };
 
-  const handleDelete = (id) => {
-    console.log(`Delete staff with ID: ${id}`);
+  const handleUserUpdateSuccess = () => {
+    toast.success("User updated successfully!"); // Show toast here
+    setTimeout(() => {
+      dispatch(listStaffs()); // Refresh staff list after update
+    }, 1000);
   };
+
+  const handleDeleteUser = (id) => {
+    console.log(`Delete staff with ID: ${id}`);
+    setDeleteUserId(id); 
+    setIsDeleteModalOpen(true); 
+
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setDeleteUserId(null);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await dispatch(deleteExistingUserAction(deleteUserId));
+      closeDeleteModal(); // Close the delete modal
+      
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after the toast
+      }, 1000); 
+    } catch (error) {
+      console.error("Error deleting the user:", error);
+    }
+  };
+  
 
   if (loading) return <Loading />;
   if (error) return <div className='text-red-600 border-spacing-9'>Error: {error}</div>;
@@ -51,16 +91,23 @@ const StaffsList = () => {
       heading="Staffs" 
       data={staffs} 
       onEdit={handleEditUser} 
-      onDelete={handleDelete} 
+      onDelete={handleDeleteUser} 
     />
      {/* Modal for editing user */}
      {isModalOpen && (
       <EditUserModal 
         user={selectedUser} 
         isOpen={isModalOpen} 
-        onClose={closeModal}
+        onClose={closeEditModal}
+        onSuccess={handleUserUpdateSuccess} // Handle success with page reload
       />
     )}
+     {/* Delete Confirmation Modal */}
+     <DeleteModal 
+        isOpen={isDeleteModalOpen} 
+        onClose={closeDeleteModal} 
+        onConfirm={confirmDelete} 
+      />
     </>
   );
 };
