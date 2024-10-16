@@ -25,7 +25,7 @@ const SideBar = () => {
     { label: "Dashboard", icon: <RxDashboard className="text-lg" />, link: "/admin/dashboard" },
     { label: "Staffs", icon: <IoPeopleOutline className="text-lg" />, link: "/admin/staffs" },
     { label: "Librarians", icon: <IoPersonOutline className="text-lg" />, link: "/admin/librarians" },
-    { label: "Students", icon: <FaChildren className="text-lg" />, link: "#" },
+    { label: "Students", icon: <FaChildren className="text-lg" />, link: "/admin/students" },
     { label: "Logout", icon: <TbLogout className="text-lg" />, link: "/" }
   ];
 

@@ -8,6 +8,7 @@ import Calendar from '../../components/calendar/Calendar';
 import Select from "react-select";
 import { useDispatch, useSelector } from 'react-redux';
 import { countLibrarianUsers, countStaffUsers, createNewUserAction } from '../../actions/user.actions';
+import { countStudents } from '../../actions/student.actions';
 
 const roleOptions = [
   { value: 'Staff', label: 'Staff' },
@@ -28,10 +29,13 @@ const AdminDashBoard = () => {
    // Get the staff and librarian counts from Redux store
    const { staffs, librarians, loading: countLoading, error: countError } = useSelector((state) => state.userCount);
 
+   const { students } = useSelector((state) => state.studentCount)
+
    useEffect(() => {
      // Dispatch the actions when the component mounts
      dispatch(countStaffUsers());
      dispatch(countLibrarianUsers());
+     dispatch(countStudents());
    }, [dispatch]);;
 
 
@@ -87,7 +91,7 @@ const AdminDashBoard = () => {
             />
             <Card
               title={"Students"}
-              count={600}
+              count={countLoading ? "Loading..." : students}
               Icon={FaChildren}
             />
           </div>
