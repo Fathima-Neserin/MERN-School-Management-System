@@ -1,8 +1,14 @@
 import { toast } from "react-toastify";
 import { 
+    LIBRARIANS_COUNT_FAIL,
+    LIBRARIANS_COUNT_REQUEST,
+    LIBRARIANS_COUNT_SUCCESS,
     LIBRARIANS_LIST_FAIL, 
     LIBRARIANS_LIST_REQUEST, 
     LIBRARIANS_LIST_SUCCESS, 
+    STAFFS_COUNT_FAIL, 
+    STAFFS_COUNT_REQUEST, 
+    STAFFS_COUNT_SUCCESS, 
     STAFFS_LIST_FAIL, 
     STAFFS_LIST_REQUEST, 
     STAFFS_LIST_SUCCESS,
@@ -100,7 +106,85 @@ export const listLibrarians = () => async(dispatch, getState) => {
     });
     }}
 
-    export const createNewUserAction =  (formData) => async(dispatch, getState) =>{
+export const countStaffUsers = () => async(dispatch, getState) => {
+    try {
+        dispatch({type: STAFFS_COUNT_REQUEST});
+
+        const { auth : { userInfo } } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`
+            },
+            withCredentials:true
+        };       
+        const { data } = await axios.get("/api/user/count/staff", config);
+
+        if (data.success) {
+            dispatch({
+                type: STAFFS_COUNT_SUCCESS,
+                payload: data.count, 
+            });
+        } else {
+            dispatch({
+                type: STAFFS_COUNT_FAIL,
+                payload: "Failed to count staff users",
+            });
+        }
+    } catch (error) {
+        const errorMsg = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+        type: STAFFS_COUNT_FAIL,
+        payload: errorMsg
+    });
+    
+    }
+}
+
+
+export const countLibrarianUsers = () => async(dispatch, getState) => {
+    try {
+        dispatch({type: LIBRARIANS_COUNT_REQUEST});
+
+        const { auth : { userInfo } } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`
+            },
+            withCredentials:true
+        };       
+        const { data } = await axios.get("/api/user/count/librarian", config);
+
+        if (data.success) {
+            dispatch({
+                type: LIBRARIANS_COUNT_SUCCESS,
+                payload: data.count, 
+            });
+        } else {
+            dispatch({
+                type: LIBRARIANS_COUNT_FAIL,
+                payload: "Failed to count staff users",
+            });
+        }
+    } catch (error) {
+        const errorMsg = 
+        error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch({
+        type: LIBRARIANS_COUNT_FAIL,
+        payload: errorMsg
+    });
+    
+    }
+}
+export const createNewUserAction =  (formData) => async(dispatch, getState) =>{
         try {
             // console.log("Form Data being sent:", formData); 
 

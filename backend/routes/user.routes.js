@@ -4,12 +4,16 @@ const { fetchStaffs,
     fetchLibrarians, 
     createNewUser, 
     updateExistingUser, 
-    removeExistingUser} = require('../controllers/user.controllers');
+    removeExistingUser,
+    countStaffs,
+    countLibrarians} = require('../controllers/user.controllers');
 
 const router = express.Router();
 
 router.get("/staff", authMiddleware, fetchStaffs);
 router.get("/librarian", authMiddleware,fetchLibrarians);
+router.get("/count/staff", authMiddleware, countStaffs);
+router.get("/count/librarian", authMiddleware, countLibrarians)
 
 router.post("/newUser", authMiddleware, createNewUser);
 

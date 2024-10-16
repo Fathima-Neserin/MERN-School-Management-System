@@ -13,7 +13,13 @@ import {
     USER_UPDATE_FAIL,
     USER_DELETE_REQUEST,
     USER_DELETE_SUCCESS,
-    USER_DELETE_FAIL
+    USER_DELETE_FAIL,
+    STAFFS_COUNT_REQUEST,
+    STAFFS_COUNT_SUCCESS,
+    LIBRARIANS_COUNT_REQUEST,
+    LIBRARIANS_COUNT_SUCCESS,
+    LIBRARIANS_COUNT_FAIL,
+    STAFFS_COUNT_FAIL
 } from "../constants/user.constants";
 
 const initialState = {
@@ -36,6 +42,26 @@ export const userListReducer = (state = initialState, action) => {
         case LIBRARIANS_LIST_SUCCESS:
             return { ...state, loading: false, librarians: action.payload, success:true }; 
         case LIBRARIANS_LIST_FAIL:
+            return { ...state, loading: false, error: action.payload,success:false };
+        default:
+            return state;
+    }
+};
+
+
+export const userCountReducer = (state ={}, action) => {
+    switch (action.type) {
+        case STAFFS_COUNT_REQUEST:
+            return { ...state, loading: true, error: null };
+        case STAFFS_COUNT_SUCCESS:
+            return { ...state, loading: false, staffs: action.payload }; 
+        case STAFFS_COUNT_FAIL:
+            return { ...state, loading: false, error: action.payload, success:false };
+        case LIBRARIANS_COUNT_REQUEST:
+            return { ...state, loading: true, error: null };
+        case LIBRARIANS_COUNT_SUCCESS:
+            return { ...state, loading: false, librarians: action.payload, success:true }; 
+        case LIBRARIANS_COUNT_FAIL:
             return { ...state, loading: false, error: action.payload,success:false };
         default:
             return state;

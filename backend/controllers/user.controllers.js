@@ -27,6 +27,36 @@ exports.fetchLibrarians = asyncHandler(async(req, res) => {
     }
 })
 
+exports.countStaffs = asyncHandler(async (req, res) => {
+    try {
+        const staffCount = await User.countDocuments({ role: "Staff" });
+
+        res.status(200).json({
+            success: true,
+            message: "Count of staff users retrieved successfully",
+            count: staffCount,
+        });
+    } catch (error) {
+        console.error("Error while counting staff users:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+exports.countLibrarians = asyncHandler(async (req, res) => {
+    try {
+        const librarianCount = await User.countDocuments({ role: "Librarian" });
+
+        res.status(200).json({
+            success: true,
+            message: "Count of librarian users retrieved successfully",
+            count: librarianCount,
+        });
+    } catch (error) {
+        console.error("Error while counting librarian users:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 exports.createNewUser = asyncHandler(async(req, res) => {
     
     try {

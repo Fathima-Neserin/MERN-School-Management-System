@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../../components/sidebar/SideBar';
 import Card from '../../components/card/Card';
 import Header from '../../components/header/Header';
@@ -7,7 +7,7 @@ import { IoPeopleOutline, IoPersonOutline } from "react-icons/io5";
 import Calendar from '../../components/calendar/Calendar';
 import Select from "react-select";
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewUserAction } from '../../actions/user.actions';
+import { countLibrarianUsers, countStaffUsers, createNewUserAction } from '../../actions/user.actions';
 
 const roleOptions = [
   { value: 'Staff', label: 'Staff' },
@@ -24,6 +24,16 @@ const AdminDashBoard = () => {
   
   const userCreate = useSelector((state) => state.userCreate);
   const { loading, error, user } = userCreate;
+
+   // Get the staff and librarian counts from Redux store
+   const { staffs, librarians, loading: countLoading, error: countError } = useSelector((state) => state.userCount);
+
+   useEffect(() => {
+     // Dispatch the actions when the component mounts
+     dispatch(countStaffUsers());
+     dispatch(countLibrarianUsers());
+   }, [dispatch]);;
+
 
   const [formdata, setData] = useState({
     name: '',
@@ -65,13 +75,13 @@ const AdminDashBoard = () => {
           <div className="p-6 w-[50%] gap-10 flex flex-row">
             <Card
               title={"Staffs"}
-              count={20}
+              count={countLoading ? "Loading..." : staffs} // Display staff count or loading state
               Icon={IoPeopleOutline}
               onClick={() => setShowStaffModal(true)} // Show Staff modal on button click
             />
             <Card
               title={"Librarians"}
-              count={5}
+              count={countLoading ? "Loading..." : librarians} // Display librarian count or loading state
               Icon={IoPersonOutline}
               onClick={() => setShowLibrarianModal(true)} // Show Librarian modal on button click
             />
