@@ -2,6 +2,9 @@ import axios from "axios";
 import { HISTORY_CREATE_FAIL, 
     HISTORY_CREATE_REQUEST, 
     HISTORY_CREATE_SUCCESS, 
+    HISTORY_DELETE_FAIL, 
+    HISTORY_DELETE_REQUEST, 
+    HISTORY_DELETE_SUCCESS, 
     HISTORY_UPDATE_FAIL, 
     HISTORY_UPDATE_REQUEST, 
     HISTORY_UPDATE_SUCCESS, 
@@ -113,3 +116,37 @@ export const libraryHistoryUpdation = (historyID, formData) => async(dispatch, g
        toast.error(errorMsg);
        
     }}
+   
+    export const deleteLibraryHistory = (historyID) => async(dispatch, getState) => {
+        try {
+            dispatch({type: HISTORY_DELETE_REQUEST});
+    
+            const { auth: {userInfo} } = getState();
+    
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+                withCredentials:true
+            };       
+    
+            const { data } = await axios.delete(`/api/library/history/delete/${historyID}`,config);
+    
+            dispatch({type: HISTORY_DELETE_SUCCESS,
+                payload: data
+            })
+            if(data.success){
+                toast.success(data.message);
+            }
+        } catch (error) {
+            const errorMsg = 
+            error.response && error.response.data.message
+           ? error.response.data.message
+           : error.message;
+    
+           dispatch({type: HISTORY_DELETE_FAIL, payload: errorMsg})
+           toast.error(errorMsg);
+        }
+     }  
+    
+    

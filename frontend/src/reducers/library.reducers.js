@@ -1,5 +1,8 @@
 import { HISTORY_CREATE_FAIL, HISTORY_CREATE_REQUEST, 
     HISTORY_CREATE_SUCCESS, 
+    HISTORY_DELETE_FAIL, 
+    HISTORY_DELETE_REQUEST, 
+    HISTORY_DELETE_SUCCESS, 
     HISTORY_UPDATE_FAIL, 
     HISTORY_UPDATE_REQUEST, 
     HISTORY_UPDATE_SUCCESS, 
@@ -41,6 +44,19 @@ export const libraryHistoryUpdateReducer = (state = {}, action) => {
             return {...state, loading:false, success:true};
         case HISTORY_UPDATE_FAIL:
             return {...state, loading:false, error:action.payload, success:false};
+        default:
+            return state;
+    }
+}
+
+export const libraryHistoryDeleteReducer = (state = {}, action) => {
+    switch (action.type) {
+        case HISTORY_DELETE_REQUEST:
+            return {...state, loading:true};
+        case HISTORY_DELETE_SUCCESS:
+            return {...state, loading:false, success:true};
+        case HISTORY_DELETE_FAIL:
+            return {...state, loading:false, error:action.payload};
         default:
             return state;
     }

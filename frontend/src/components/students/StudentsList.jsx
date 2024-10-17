@@ -42,7 +42,7 @@ const StudentsList = () => {
 
   const closeModal = () => {
     setShowEditModal(false);
-    setSelectedStudent(null); // Clear selected student data
+    setSelectedStudent(null); 
   };
 
   const closeDeleteModal = () => {
@@ -54,10 +54,10 @@ const StudentsList = () => {
     if (selectedStudent) {
       dispatch(deleteStudent(selectedStudent._id))
         .then(() => {
-          // Show success toast
+          
           toast.success('Student deleted successfully!', {
             onClose: () => {
-              // Reload location after the toast is closed
+              
               window.location.reload();
             },
           });

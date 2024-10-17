@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux';
-import { listHistories } from '../../actions/library.actions';
+import { deleteLibraryHistory, listHistories } from '../../actions/library.actions';
 import AddHistoryModal from './AddHistoryModal';
 import EditLibraryHistoryModal from '../edit-form/EditLibraryHistoryModal';
+import DeleteModal from "../delete/DeleteModal"
 
 const HistoryList = () => {
     
@@ -17,7 +18,9 @@ const HistoryList = () => {
 
       const [isModalOpen, setModalOpen] = useState(false); 
       const [isEditModalOpen, setEditModalOpen] = useState(false);
+      const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
       const [selectedHistory, setSelectedHistory] = useState({}); 
+      const [historyToDelete, setHistoryToDelete] = useState(null);
     
       
   useEffect(() => {
@@ -48,8 +51,31 @@ const HistoryList = () => {
     setEditModalOpen(false); 
     setSelectedHistory(null); 
   };
+
+  const handleDeleteHistory = (history) => {
+    setHistoryToDelete(history); 
+    setDeleteModalOpen(true); 
+  };
+
+  const handleDeleteConfirm = () => {
+    if (historyToDelete) {
+      dispatch(deleteLibraryHistory(historyToDelete._id))
+        .then(() => {
+          setDeleteModalOpen(false); 
+          setHistoryToDelete(null); 
+          dispatch(listHistories());
+        })
+        .catch(error => console.error(error));
+    }
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
+    setHistoryToDelete(null);
+  };
+
   return (
-    
+    <>
     <div className="max-w-4xl mx-4 p-5">  <div className="flex justify-between items-center mb-6">
     <h2 className="text-2xl font-bold text-center">Library History</h2>
     <button
@@ -96,8 +122,7 @@ const HistoryList = () => {
                 </button>
                 <button 
                 className="text-indigo-950 hover:text-red-700 mt-3 ml-2"
-                // onClick={() => handleDeleteStudent(student)}
-                >
+                onClick={() => handleDeleteHistory(history)}                 >
                   <FaTrash />
                 </button>
               </td>
@@ -111,8 +136,14 @@ const HistoryList = () => {
         onClose={closeEditModal} 
         historyData={selectedHistory} // Pass selected history data to the edit modal
       />
+       <DeleteModal 
+        isOpen={isDeleteModalOpen} 
+        onClose={closeDeleteModal} 
+        onConfirm={handleDeleteConfirm} 
+        toBeDeleted="library history"
+      />
     </div>
-  )
-}
+    </>
+  )}
 
 export default HistoryList
