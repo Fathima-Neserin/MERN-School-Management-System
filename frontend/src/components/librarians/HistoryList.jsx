@@ -3,6 +3,7 @@ import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux';
 import { listHistories } from '../../actions/library.actions';
 import AddHistoryModal from './AddHistoryModal';
+import EditLibraryHistoryModal from '../edit-form/EditLibraryHistoryModal';
 
 const HistoryList = () => {
     
@@ -15,6 +16,8 @@ const HistoryList = () => {
       const { userInfo } = auth;
 
       const [isModalOpen, setModalOpen] = useState(false); 
+      const [isEditModalOpen, setEditModalOpen] = useState(false);
+      const [selectedHistory, setSelectedHistory] = useState({}); 
     
       
   useEffect(() => {
@@ -26,13 +29,25 @@ const HistoryList = () => {
   }, [dispatch, userInfo]);
 
   const handleAddNewHistory = () => {
-    setModalOpen(true); // Open the modal when button is clicked
+    setModalOpen(true); 
   };
 
   const closeModal = () => {
-    setModalOpen(false); // Function to close the modal
+    setModalOpen(false); 
   };
 
+
+  const handleEditHistory = (history) => {
+    console.log("Edit Icon clicked", history);
+    
+    setSelectedHistory(history); 
+    setEditModalOpen(true); 
+  };
+
+  const closeEditModal = () => {
+    setEditModalOpen(false); 
+    setSelectedHistory(null); 
+  };
   return (
     
     <div className="max-w-4xl mx-4 p-5">  <div className="flex justify-between items-center mb-6">
@@ -76,8 +91,7 @@ const HistoryList = () => {
               <td className="py-2 px-4 flex space-x-6">
                 <button 
                 className="text-indigo-950 hover:text-blue-700 mt-3 ml-2"
-                // onClick={() => handleEditStudent(student)}
-                >
+                onClick={() => handleEditHistory(history)}                >
                   <FaEdit />
                 </button>
                 <button 
@@ -92,6 +106,11 @@ const HistoryList = () => {
         </tbody>
       </table>
       <AddHistoryModal isOpen={isModalOpen} onClose={closeModal} /> {/* Include the modal */}
+      <EditLibraryHistoryModal 
+        isOpen={isEditModalOpen} 
+        onClose={closeEditModal} 
+        historyData={selectedHistory} // Pass selected history data to the edit modal
+      />
     </div>
   )
 }

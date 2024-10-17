@@ -2,6 +2,9 @@ import axios from "axios";
 import { HISTORY_CREATE_FAIL, 
     HISTORY_CREATE_REQUEST, 
     HISTORY_CREATE_SUCCESS, 
+    HISTORY_UPDATE_FAIL, 
+    HISTORY_UPDATE_REQUEST, 
+    HISTORY_UPDATE_SUCCESS, 
     LIBRARY_HISTORY_FAIL, 
     LIBRARY_HISTORY_REQUEST, 
     LIBRARY_HISTORY_SUCCESS } from "../constants/library.constants";
@@ -79,3 +82,34 @@ export const addNewLibraryHistory =  (formData) => async(dispatch, getState) =>{
     dispatch({type: HISTORY_CREATE_FAIL, payload: errorMsg})
     toast.error(errorMsg);
 }}
+
+export const libraryHistoryUpdation = (historyID, formData) => async(dispatch, getState) =>{
+    try {
+        dispatch({type: HISTORY_UPDATE_REQUEST});
+
+        const { auth: {userInfo} } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                "Content-Type": "application/json" 
+            },
+            withCredentials:true
+        };       
+        const { data } = await axios.put(`/api/library/history/edit/${historyID}`,formData,config);
+
+        dispatch({type: HISTORY_UPDATE_SUCCESS, payload: data});
+        if(data.success){
+            toast.success(data.message);
+        }
+        
+    } catch (error) {
+        const errorMsg = 
+        error.response && error.response.data.message
+       ? error.response.data.message
+       : error.message;
+
+       dispatch({type: HISTORY_UPDATE_FAIL, payload: errorMsg})
+       toast.error(errorMsg);
+       
+    }}
