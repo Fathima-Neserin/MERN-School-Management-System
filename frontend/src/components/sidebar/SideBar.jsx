@@ -5,6 +5,7 @@ import { RxDashboard } from "react-icons/rx";
 import { TbLogout } from "react-icons/tb";
 import { IoPeopleOutline, IoPersonOutline } from "react-icons/io5";
 import { FaChildren } from "react-icons/fa6";
+import { IoLibraryOutline } from "react-icons/io5";
 import { useDispatch, useSelector} from "react-redux";
 import { LOGOUT } from '../../actions/auth.actions';
 
@@ -25,6 +26,7 @@ const SideBar = () => {
     { label: "Dashboard", icon: <RxDashboard className="text-lg" />, link: "/admin/dashboard" },
     { label: "Staffs", icon: <IoPeopleOutline className="text-lg" />, link: "/admin/staffs" },
     { label: "Librarians", icon: <IoPersonOutline className="text-lg" />, link: "/admin/librarians" },
+    { label: "Library History", icon: <IoLibraryOutline className="text-lg" />, link: "/admin/library/history" },
     { label: "Students", icon: <FaChildren className="text-lg" />, link: "/admin/students" },
     { label: "Logout", icon: <TbLogout className="text-lg" />, link: "/" }
   ];

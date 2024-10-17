@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Card = ({ title, count, Icon, onClick }) => {
+const Card = ({ title, count, Icon, onClick, redirect}) => {
   return (
     <div className="max-w-lg mx-auto">
-      <div className="card card-side bg-gray-50 shadow-lg p-4 flex items-center ml-14">
+      <div className="card card-side bg-gray-50 shadow-lg p-4 flex items-center ml-14" onClick={redirect}>
         <Icon className="h-16 w-16 text-indigo-950" />
         <div className="card-body">
           <h2 className="card-title text-2xl font-semibold">{title}</h2>

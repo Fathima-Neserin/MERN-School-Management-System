@@ -11,6 +11,7 @@ const dbConnection = require('./config/db.config');
 const AuthRoutes = require ("./routes/auth.routes");
 const UserRoutes = require("./routes/user.routes");
 const StudentRoutes = require("./routes/student.routes");
+const LibraryRoutes = require("./routes/library.routes");
 
 const { NotFound, ErrorHandler } = require("./middlewares/error.middlewares");
 
@@ -32,6 +33,7 @@ app.use(cors({
 app.use("/api/auth", AuthRoutes);
 app.use("/api/user", UserRoutes);
 app.use("/api/student", StudentRoutes);
+app.use("/api/library/history", LibraryRoutes);
 
 app.use(NotFound);
 app.use(ErrorHandler);
