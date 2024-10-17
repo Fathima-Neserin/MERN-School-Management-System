@@ -12,6 +12,7 @@ const AuthRoutes = require ("./routes/auth.routes");
 const UserRoutes = require("./routes/user.routes");
 const StudentRoutes = require("./routes/student.routes");
 const LibraryRoutes = require("./routes/library.routes");
+const FeesRoutes = require("./routes/fees.routes");
 
 const { NotFound, ErrorHandler } = require("./middlewares/error.middlewares");
 
@@ -34,6 +35,7 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/user", UserRoutes);
 app.use("/api/student", StudentRoutes);
 app.use("/api/library/history", LibraryRoutes);
+app.use("/api/fees/history", FeesRoutes);
 
 app.use(NotFound);
 app.use(ErrorHandler);

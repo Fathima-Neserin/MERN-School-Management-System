@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
   const [role, setRole] = useState('');
@@ -17,10 +16,7 @@ const Header = () => {
         {role === 'Admin' ? 'Admin Dashboard' :
          role === 'Staff' ? 'Staff Dashboard' :
          role === 'Librarian' ? 'Librarian Dashboard' : null }
-          </h1>
-        
-       <button className='mr-10 text-2xl text-white'><FaUserCircle/></button>
-      
+          </h1>      
     
       </header>
     </div>
