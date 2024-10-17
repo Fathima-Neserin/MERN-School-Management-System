@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux';
 import { listHistories } from '../../actions/library.actions';
+import AddHistoryModal from './AddHistoryModal';
 
 const HistoryList = () => {
     
@@ -12,6 +13,8 @@ const HistoryList = () => {
       const auth = useSelector((state) => state.auth);
     
       const { userInfo } = auth;
+
+      const [isModalOpen, setModalOpen] = useState(false); 
     
       
   useEffect(() => {
@@ -22,10 +25,25 @@ const HistoryList = () => {
     }
   }, [dispatch, userInfo]);
 
+  const handleAddNewHistory = () => {
+    setModalOpen(true); // Open the modal when button is clicked
+  };
+
+  const closeModal = () => {
+    setModalOpen(false); // Function to close the modal
+  };
+
   return (
     
-    <div className="max-w-4xl mx-4 p-5">
-      <h2 className="text-2xl font-bold text-center mb-6">Library History</h2>
+    <div className="max-w-4xl mx-4 p-5">  <div className="flex justify-between items-center mb-6">
+    <h2 className="text-2xl font-bold text-center">Library History</h2>
+    <button
+      className="bg-indigo-950 text-white py-2 px-4 rounded hover:bg-indigo-50 hover:text-black flex items-center ml-auto"
+      onClick={handleAddNewHistory}
+    >
+      <FaPlus className="mr-2" /> New History
+    </button>
+  </div>
       <table className="w-full max-w-screen bg-gray-50 shadow-md rounded-lg overflow-hidden">
         <thead>
           <tr className="bg-indigo-950 text-white text-left">
@@ -73,6 +91,7 @@ const HistoryList = () => {
           ))}
         </tbody>
       </table>
+      <AddHistoryModal isOpen={isModalOpen} onClose={closeModal} /> {/* Include the modal */}
     </div>
   )
 }

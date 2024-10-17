@@ -45,7 +45,7 @@ exports.addNewLibraryHistory = asyncHandler(async(req, res) => {
             status
         });
         await newHistory.save();
-        res.status(200).json({success:true, message:`${bookName} borrowed ${studentName} recently `, newHistory})
+        res.status(200).json({success:true, message:`${bookName} borrowed ${borrowedStudent} recently `, newHistory})
     } catch (error) {
         console.error("Error while borrowing book : " , error.message );
         res.status(500).json({error: "Internal server error"})

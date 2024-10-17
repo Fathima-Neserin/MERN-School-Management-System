@@ -1,5 +1,11 @@
 import axios from "axios";
-import { LIBRARY_HISTORY_FAIL, LIBRARY_HISTORY_REQUEST, LIBRARY_HISTORY_SUCCESS } from "../constants/library.constants";
+import { HISTORY_CREATE_FAIL, 
+    HISTORY_CREATE_REQUEST, 
+    HISTORY_CREATE_SUCCESS, 
+    LIBRARY_HISTORY_FAIL, 
+    LIBRARY_HISTORY_REQUEST, 
+    LIBRARY_HISTORY_SUCCESS } from "../constants/library.constants";
+import { toast } from "react-toastify";
 
 export const listHistories = () => async(dispatch, getState) => {
     try {
@@ -39,6 +45,37 @@ export const listHistories = () => async(dispatch, getState) => {
         type: LIBRARY_HISTORY_FAIL,
         payload: errorMsg
     });
-    }
+    }}
 
-}
+export const addNewLibraryHistory =  (formData) => async(dispatch, getState) =>{
+    try {
+
+        dispatch({type: HISTORY_CREATE_REQUEST});
+
+        const { auth: {userInfo} } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                "Content-Type": "application/json" 
+            },
+            withCredentials:true
+        };       
+
+        console.log('Authorization token:', userInfo.token);
+
+        const { data } = await axios.post("/api/library/history/new",formData,config);
+
+         dispatch({type: HISTORY_CREATE_SUCCESS, payload: data});
+        if(data.success){
+            toast.success(data.message);
+        }
+    } catch (error) {
+    const errorMsg = 
+     error.response && error.response.data.message
+    ? error.response.data.message
+    : error.message;
+
+    dispatch({type: HISTORY_CREATE_FAIL, payload: errorMsg})
+    toast.error(errorMsg);
+}}
