@@ -25,7 +25,7 @@ exports.addNewFeeHistory = asyncHandler(async(req, res) => {
             paidDate, 
             studentName, 
             section} = req.body;
-        if(!studentID || !bookId || !section || !feeName || !studentName || !paidDate || !amount){
+        if(!studentID || !section || !feeName || !studentName || !paidDate || !amount){
             return res.status(400).json({success:false, message:"All fields are required"})
         }
         const newHistory = await FeesHistory.create({
@@ -58,7 +58,6 @@ exports.editFeeHistory= asyncHandler(async(req, res) => {
         
         if (history) {
             history.studentID = studentID || history.studentID;
-            history.bookId = bookId || history.bookId;
             history.feeName = feeName || history.feeName;
             history.amount = amount || history.amount;
             history.paidDate = paidDate || history.paidDate;

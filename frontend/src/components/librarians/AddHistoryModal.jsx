@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from "react-select";
-import { addNewStudentAction } from '../../actions/student.actions';
 import { addNewLibraryHistory } from '../../actions/library.actions';
 import { toast } from 'react-toastify';
 
@@ -56,6 +55,7 @@ const AddHistoryModal = ({ isOpen, onClose }) => {
       [name]: selectedOption ? selectedOption.value : '', // Handle case when nothing is selected
     });
   };
+
   const handleAddNewHistory = (e) => {
     e.preventDefault();
     

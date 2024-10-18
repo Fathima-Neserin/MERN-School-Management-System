@@ -130,7 +130,7 @@ const HistoryList = () => {
           ))}
         </tbody>
       </table>
-      <AddHistoryModal isOpen={isModalOpen} onClose={closeModal} /> {/* Include the modal */}
+      <AddHistoryModal isOpen={isModalOpen} onClose={closeModal} /> 
       <EditLibraryHistoryModal 
         isOpen={isEditModalOpen} 
         onClose={closeEditModal} 

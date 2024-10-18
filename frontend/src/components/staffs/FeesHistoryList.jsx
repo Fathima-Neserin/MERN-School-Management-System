@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { listFeesHistories } from '../../actions/fees.actions';
+import AddFeesHistoryModal from './AddFeesHistoryModal';
 
 
 const FeesHistoryList = () => {
@@ -12,6 +13,16 @@ const FeesHistoryList = () => {
   const auth = useSelector((state) => state.auth);
 
   const { userInfo } = auth;
+
+  const [isModalOpen, setModalOpen] = useState(false); 
+
+  const handleAddNewFeesHistory = () => {
+    setModalOpen(true); 
+  };
+
+  const closeModal = () => {
+    setModalOpen(false); 
+  };
 
   useEffect(() => {
     if (userInfo) {
@@ -24,7 +35,7 @@ const FeesHistoryList = () => {
     <h2 className="text-2xl font-bold text-center">Fees History</h2>
     <button
       className="bg-indigo-950 text-white py-2 px-4 rounded hover:bg-indigo-50 hover:text-black flex items-center ml-auto"
-      // onClick={handleAddNewHistory}
+      onClick={handleAddNewFeesHistory}
     >
       <FaPlus className="mr-2" /> New History
     </button>
@@ -68,6 +79,8 @@ const FeesHistoryList = () => {
           ))}
         </tbody>
       </table>
+      <AddFeesHistoryModal isOpen={isModalOpen} onClose={closeModal} /> 
+
     </div>
   )
 }

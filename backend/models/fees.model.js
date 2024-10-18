@@ -22,7 +22,7 @@ const FeesHistorySchema = new mongoose.Schema({
         required:true
      },
      paidDate:{
-        type:Number,
+        type:String,
         required:true
      }
 },{timestamps:true})
