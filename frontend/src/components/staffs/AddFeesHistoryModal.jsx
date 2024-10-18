@@ -120,7 +120,7 @@ const handleAddNewHistory = (e) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700" htmlFor="standard">Select Standard</label>
+            <label className="block text-gray-700" htmlFor="standard">Select Section</label>
             <Select
               required
               options={sectionOptions}

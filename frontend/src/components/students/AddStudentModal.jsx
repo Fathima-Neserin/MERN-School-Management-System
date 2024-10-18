@@ -55,6 +55,7 @@ const AddStudentModal = ({ showModal, closeModal }) => {
     
     dispatch(addNewStudentAction(formdata))
     closeModal()
+    window.location.reload();
     
   };
 

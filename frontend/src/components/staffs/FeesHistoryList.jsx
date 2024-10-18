@@ -71,7 +71,8 @@ const FeesHistoryList = () => {
       console.error("User is not authenticated");
     }
   }, [dispatch, userInfo]);  return (
-    <div className="max-w-4xl mx-4 p-5">  <div className="flex justify-between items-center mb-6">
+    <div className="max-w-4xl mx-4 p-5"> 
+     <div className="flex justify-between items-center mb-6">
     <h2 className="text-2xl font-bold text-center">Fees History</h2>
     <button
       className="bg-indigo-950 text-white py-2 px-4 rounded hover:bg-indigo-50 hover:text-black flex items-center ml-auto"

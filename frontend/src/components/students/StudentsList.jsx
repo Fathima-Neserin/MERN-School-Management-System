@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaPlus } from 'react-icons/fa';
 import { FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStudent, listStudents } from '../../actions/student.actions';
 import EditStudentModal from '../edit-form/EditStudentModal';
 import DeleteModal from "../delete/DeleteModal";
 import { toast } from 'react-toastify';
+import AddStudentModal from './AddStudentModal';
 
 
 const StudentsList = () => {
@@ -18,6 +19,7 @@ const StudentsList = () => {
 
   const { userInfo } = auth;
 
+  const [isAddModalOpen, setAddModalOpen] = useState(false); 
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -30,6 +32,13 @@ const StudentsList = () => {
     }
   }, [dispatch, userInfo]);
 
+  const handleAddNewStudent = () => {
+    setAddModalOpen(true); 
+  };
+
+  const closeAddModal = () => {
+    setAddModalOpen(false); 
+  };
   const handleEditStudent = (student) => {
     setSelectedStudent(student);
     setShowEditModal(true);
@@ -72,9 +81,22 @@ const StudentsList = () => {
     }
   };
 
+  const canAddStudent = userInfo?.data?.role?.includes('Admin') || userInfo?.data?.role?.includes('Staff');
+
+
   return (
-    <div className="max-w-4xl mx-8 p-8">
-      <h2 className="text-2xl font-bold text-center mb-6">Students</h2>
+    <div className="max-w-4xl mx-4 p-5">      
+    <div className="flex justify-between items-center mb-6">  
+    <h2 className="text-2xl font-bold text-center mb-6">Students</h2>
+      {canAddStudent && (
+      <button
+      className="bg-indigo-950 text-white py-2 px-4 rounded hover:bg-indigo-50 hover:text-black flex items-center ml-auto mb-2"
+      onClick={handleAddNewStudent}
+    >
+      <FaPlus className="mr-2" /> New Student
+    </button>
+    )}
+    </div>
       <table className="w-full max-w-screen bg-gray-50 shadow-md rounded-lg overflow-hidden">
         <thead>
           <tr className="bg-indigo-950 text-white text-left">
@@ -125,6 +147,8 @@ const StudentsList = () => {
           studentData={selectedStudent} // Pass the selected student data to the modal
         />
       )}
+      
+      <AddStudentModal showModal={isAddModalOpen} closeModal={closeAddModal} /> 
 
        <DeleteModal 
         isOpen={showDeleteModal}
