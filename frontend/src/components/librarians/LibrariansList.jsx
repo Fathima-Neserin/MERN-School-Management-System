@@ -86,6 +86,8 @@ const LibrariansList = () => {
       data={librarians} 
       onEdit={handleEditUser} 
       onDelete={handleDeleteUser} 
+      role={userInfo?.data?.role || []}  
+
     />
      {/* Modal for editing user */}
      {isModalOpen && (

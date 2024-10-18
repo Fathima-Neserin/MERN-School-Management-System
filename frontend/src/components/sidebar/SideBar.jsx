@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RiSchoolFill } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
@@ -7,31 +7,39 @@ import { IoPeopleOutline, IoPersonOutline } from "react-icons/io5";
 import { FaChildren } from "react-icons/fa6";
 import { IoLibraryOutline } from "react-icons/io5";
 import { LiaRupeeSignSolid } from "react-icons/lia";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
 import { LOGOUT } from '../../actions/auth.actions';
 
 const SideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.auth);
-  const { userInfo } = userLogin;
-  
+  const [role, setRole] = useState('');
+
+  useEffect(() => {
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    if (userInfo && userInfo.data && userInfo.data.role) {
+      setRole(userInfo.data.role[0]); // Assumes role is an array, adjust accordingly.
+    }
+  }, []);
+
   const handleUserLogout = () => {
     dispatch(LOGOUT(navigate)); // Dispatch the logout action
   };
-  
 
-  // List of menu items
-  const menuItems = [
-    { label: "Dashboard", icon: <RxDashboard className="text-lg" />, link: "/admin/dashboard" },
-    { label: "Staffs", icon: <IoPeopleOutline className="text-lg" />, link: "/admin/staffs" },
-    { label: "Fees History", icon: <LiaRupeeSignSolid className="text-lg" />, link: "/admin/fees/history" },
-    { label: "Librarians", icon: <IoPersonOutline className="text-lg" />, link: "/admin/librarians" },
-    { label: "Library History", icon: <IoLibraryOutline className="text-lg" />, link: "/admin/library/history" },
-    { label: "Students", icon: <FaChildren className="text-lg" />, link: "/admin/students" },
-    { label: "Logout", icon: <TbLogout className="text-lg" />, link: "/" }
+  // Full list of menu items, including the roles that can access them.
+  const allMenuItems = [
+    { label: "Dashboard", icon: <RxDashboard className="text-lg" />, link: "/admin/dashboard", roles: ["Admin"] },
+    { label: "Staffs", icon: <IoPeopleOutline className="text-lg" />, link: "/staffs", roles: ["Admin", "Staff"] },
+    { label: "Fees History", icon: <LiaRupeeSignSolid className="text-lg" />, link: "/fees/history", roles: ["Admin", "Staff"] },
+    { label: "Librarians", icon: <IoPersonOutline className="text-lg" />, link: "/librarians", roles: ["Admin", "Librarian"] },
+    { label: "Library History", icon: <IoLibraryOutline className="text-lg" />, link: "/library/history", roles: ["Admin", "Staff", "Librarian"] },
+    { label: "Students", icon: <FaChildren className="text-lg" />, link: "/students", roles: ["Admin", "Staff"] },
+    { label: "Logout", icon: <TbLogout className="text-lg" />, link: "/", roles: ["Admin", "Staff", "Librarian"] }
   ];
+
+  // Filter the menu items based on the role
+  const menuItems = allMenuItems.filter(item => item.roles.includes(role));
 
   return (
     <div className="drawer lg:drawer-open">
@@ -53,33 +61,32 @@ const SideBar = () => {
 
           {/* Menu Items */}
           <ul className="menu text-base-content space-y-4">
-  {menuItems.map((item, index) => (
-    <li key={index}>
-      {item.label === "Logout" ? (
-        <button
-          onClick={handleUserLogout}
-          className="flex items-center space-x-9 p-2 rounded-lg hover:bg-indigo-100 hover:text-black"
-        >
-          {item.icon}
-          <span>{item.label}</span>
-        </button>
-      ) : (
-        <a
-          href={item.link}
-          className="flex items-center space-x-9 p-2 rounded-lg hover:bg-indigo-100 hover:text-black"
-        >
-          {item.icon}
-          <span>{item.label}</span>
-        </a>
-      )}
-    </li>
-  ))}
-</ul>
-
+            {menuItems.map((item, index) => (
+              <li key={index}>
+                {item.label === "Logout" ? (
+                  <button
+                    onClick={handleUserLogout}
+                    className="flex items-center space-x-9 p-2 rounded-lg hover:bg-indigo-100 hover:text-black"
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </button>
+                ) : (
+                  <a
+                    href={item.link}
+                    className="flex items-center space-x-9 p-2 rounded-lg hover:bg-indigo-100 hover:text-black"
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default SideBar;

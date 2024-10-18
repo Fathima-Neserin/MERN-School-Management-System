@@ -86,21 +86,21 @@ const AdminDashBoard = () => {
               count={countLoading ? "Loading..." : staffs}
               Icon={IoPeopleOutline}
               onClick={() => setShowStaffModal(true)} // Show Staff modal on button click
-              redirect={() => navigate("/admin/staffs")}
+              
             />
             <Card
               title={"Librarians"}
               count={countLoading ? "Loading..." : librarians} 
               Icon={IoPersonOutline}
               onClick={() => setShowLibrarianModal(true)} // Show Librarian modal on button click
-              redirect={() => navigate("/admin/librarians")}
+              
             />
             <Card
               title={"Students"}
               count={countLoading ? "Loading..." : students}
               Icon={FaChildren}
               onClick={() => setShowStudentModal(true)} // Show Student modal on button click
-              redirect={() => navigate("/admin/students")}
+              
             />
           </div>
 

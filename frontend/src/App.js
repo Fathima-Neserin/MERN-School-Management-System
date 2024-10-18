@@ -18,11 +18,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>}/>
         <Route path="/admin/dashboard" element={<AdminDashBoard/>}/>
-        <Route path="/admin/staffs" element={<Staffs/>}/>
-        <Route path="/admin/fees/history" element={<FeesHistory/>}/>
-        <Route path="/admin/librarians" element={<Librarians/>}/>
-        <Route path="/admin/library/history" element={<LibraryHistory/>}/>
-        <Route path="/admin/students" element={<Students/>}/>
+        <Route path="/staffs" element={<Staffs/>}/>
+        <Route path="/fees/history" element={<FeesHistory/>}/>
+        <Route path="/librarians" element={<Librarians/>}/>
+        <Route path="/library/history" element={<LibraryHistory/>}/>
+        <Route path="/students" element={<Students/>}/>
         <Route path="/staff" element={<StaffDashboard/>}/>
         <Route path="/librarian" element={<LibrarianDashboard/>}/>
       </Routes>

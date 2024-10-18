@@ -88,11 +88,12 @@ const StaffsList = () => {
   return (
     <>
     <DataListTable 
-      heading="Staffs" 
-      data={staffs} 
-      onEdit={handleEditUser} 
-      onDelete={handleDeleteUser} 
-    />
+        heading="Staffs" 
+        data={staffs} 
+        onEdit={handleEditUser} 
+        onDelete={handleDeleteUser} 
+        role={userInfo?.data?.role || []}  
+      />
      {/* Modal for editing user */}
      {isModalOpen && (
       <EditUserModal 
