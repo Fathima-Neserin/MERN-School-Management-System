@@ -9,6 +9,7 @@ import Librarians from "./pages/side-menu/Librarians";
 import Students from "./pages/side-menu/Students";
 import LibraryHistory from "./pages/side-menu/LibraryHistory";
 import FeesHistory from "./pages/side-menu/FeesHistory";
+import PrivateRoute from "./components/protect/PrivateRoute";
 
 function App() {
   return (
@@ -17,14 +18,14 @@ function App() {
       <ToastContainer  autoClose={3000} newestOnTop={true} pauseOnHover theme="colored"/>
       <Routes>
         <Route path="/" element={<Login/>}/>
-        <Route path="/admin/dashboard" element={<AdminDashBoard/>}/>
-        <Route path="/staffs" element={<Staffs/>}/>
-        <Route path="/fees/history" element={<FeesHistory/>}/>
-        <Route path="/librarians" element={<Librarians/>}/>
-        <Route path="/library/history" element={<LibraryHistory/>}/>
-        <Route path="/students" element={<Students/>}/>
-        <Route path="/staff" element={<StaffDashboard/>}/>
-        <Route path="/librarian" element={<LibrarianDashboard/>}/>
+        <Route path="/admin/dashboard" element={<PrivateRoute Component={AdminDashBoard} />}/>
+        <Route path="/staffs" element={<PrivateRoute Component={Staffs}/>}/>
+        <Route path="/fees/history" element={<PrivateRoute Component={FeesHistory}/>}/>
+        <Route path="/librarians" element={<PrivateRoute Component={Librarians}/>}/>
+        <Route path="/library/history" element={<PrivateRoute Component={LibraryHistory}/>}/>
+        <Route path="/students" element={<PrivateRoute Component={Students}/>}/>
+        <Route path="/staff" element={<PrivateRoute Component={StaffDashboard}/>}/>
+        <Route path="/librarian" element={<PrivateRoute Component={LibrarianDashboard}/>}/>
       </Routes>
       </BrowserRouter>
     </div>
