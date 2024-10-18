@@ -2,6 +2,9 @@ import axios from "axios";
 import { FEES_HISTORY_CREATE_FAIL, 
     FEES_HISTORY_CREATE_REQUEST, 
     FEES_HISTORY_CREATE_SUCCESS, 
+    FEES_HISTORY_DELETE_FAIL, 
+    FEES_HISTORY_DELETE_REQUEST, 
+    FEES_HISTORY_DELETE_SUCCESS, 
     FEES_HISTORY_FAIL, 
     FEES_HISTORY_REQUEST, 
     FEES_HISTORY_SUCCESS, 
@@ -113,4 +116,38 @@ export const feesHistoryUpdation = (historyID, formData) => async(dispatch, getS
        toast.error(errorMsg);
        
     }}
+    
+    export const deleteFeeHistory = (historyID) => async(dispatch, getState) => {
+        try {
+            dispatch({type: FEES_HISTORY_DELETE_REQUEST});
+    
+            const { auth: {userInfo} } = getState();
+    
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+                withCredentials:true
+            };       
+    
+            const { data } = await axios.delete(`/api/fees/history/delete/${historyID}`,config);
+    
+            dispatch({type: FEES_HISTORY_DELETE_SUCCESS,
+                payload: data
+            })
+            if(data.success){
+                toast.success(data.message);
+            }
+        } catch (error) {
+            const errorMsg = 
+            error.response && error.response.data.message
+           ? error.response.data.message
+           : error.message;
+    
+           dispatch({type: FEES_HISTORY_DELETE_FAIL, payload: errorMsg})
+           toast.error(errorMsg);
+        }
+     }  
+    
+    
    

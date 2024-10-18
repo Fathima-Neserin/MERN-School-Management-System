@@ -7,8 +7,8 @@ import { userCountReducer, userCreateReducer,
     userListReducer, 
     userUpdateReducer } from "../reducers/user.reducers";
 import { studentCountReducer, studentCreateReducer, studentDeleteReducer, studentListReducer, studentUpdateReducer } from "../reducers/student.reducers";
-import { libraryHistoryCreateReducer, libraryHistoryReducer, libraryHistoryUpdateReducer } from "../reducers/library.reducers";
-import { feesHistoryCreateReducer, feesHistoryReducer, feesHistoryUpdateReducer } from "../reducers/fees.reducers";
+import { libraryHistoryCreateReducer, libraryHistoryDeleteReducer, libraryHistoryReducer, libraryHistoryUpdateReducer } from "../reducers/library.reducers";
+import { feesHistoryCreateReducer, feesHistoryDeleteReducer, feesHistoryReducer, feesHistoryUpdateReducer } from "../reducers/fees.reducers";
 
 // Combine reducers
 const reducer = {
@@ -26,9 +26,11 @@ const reducer = {
     libraryHistory: libraryHistoryReducer,
     libraryHistoryCreate: libraryHistoryCreateReducer,
     libraryHistoryUpdate: libraryHistoryUpdateReducer,
+    libraryHistoryDelete: libraryHistoryDeleteReducer,
     feesHistory: feesHistoryReducer,
     feesHistoryCreate: feesHistoryCreateReducer,
-    feesHistoryUpdate: feesHistoryUpdateReducer
+    feesHistoryUpdate: feesHistoryUpdateReducer,
+    feesHistoryDelete: feesHistoryDeleteReducer
 };
 
 const userInfoFromStorage = sessionStorage.getItem("userInfo")
@@ -108,6 +110,11 @@ const userInfoFromStorage = sessionStorage.getItem("userInfo")
         success: false,
         error: null
     },
+    libraryHistoryDelete: {
+        loading: false,
+        success:false,
+        error:null
+    },
     feesHistory: {
         loading: false,
         histories: [],
@@ -122,6 +129,11 @@ const userInfoFromStorage = sessionStorage.getItem("userInfo")
         loading: false,
         success: false,
         error: null
+    },
+    feesHistoryDelete: {
+        loading: false,
+        success:false,
+        error:null
     },
 };
 

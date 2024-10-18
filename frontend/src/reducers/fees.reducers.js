@@ -1,4 +1,4 @@
-import { FEES_HISTORY_CREATE_FAIL, FEES_HISTORY_CREATE_REQUEST, FEES_HISTORY_CREATE_SUCCESS, FEES_HISTORY_FAIL, 
+import { FEES_HISTORY_CREATE_FAIL, FEES_HISTORY_CREATE_REQUEST, FEES_HISTORY_CREATE_SUCCESS, FEES_HISTORY_DELETE_FAIL, FEES_HISTORY_DELETE_REQUEST, FEES_HISTORY_DELETE_SUCCESS, FEES_HISTORY_FAIL, 
     FEES_HISTORY_REQUEST, 
     FEES_HISTORY_SUCCESS, 
     FEES_HISTORY_UPDATE_FAIL, 
@@ -39,6 +39,19 @@ export const feesHistoryUpdateReducer = (state = {}, action) => {
             return {...state, loading:false, success:true};
         case FEES_HISTORY_UPDATE_FAIL:
             return {...state, loading:false, error:action.payload, success:false};
+        default:
+            return state;
+    }
+}
+
+export const feesHistoryDeleteReducer = (state = {}, action) => {
+    switch (action.type) {
+        case FEES_HISTORY_DELETE_REQUEST:
+            return {...state, loading:true};
+        case FEES_HISTORY_DELETE_SUCCESS:
+            return {...state, loading:false, success:true};
+        case FEES_HISTORY_DELETE_FAIL:
+            return {...state, loading:false, error:action.payload};
         default:
             return state;
     }

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { listFeesHistories } from '../../actions/fees.actions';
+import { deleteFeeHistory, listFeesHistories } from '../../actions/fees.actions';
 import AddFeesHistoryModal from './AddFeesHistoryModal';
 import EditFeesHistoryModal from '../edit-form/EditFeesHistoryModal';
+import DeleteModal from '../delete/DeleteModal';
 
 
 const FeesHistoryList = () => {
@@ -17,8 +18,9 @@ const FeesHistoryList = () => {
 
   const [isModalOpen, setModalOpen] = useState(false); 
   const [isEditFeeModalOpen, setEditFeeModalOpen] = useState(false);
+  const [isDeleteFeeModalOpen, setDeleteFeeModalOpen] = useState(false);
   const [selectedHistory, setSelectedHistory] = useState({}); 
-
+  const [historyToDelete, setHistoryToDelete] = useState(null);
 
   const handleAddNewFeesHistory = () => {
     setModalOpen(true); 
@@ -38,6 +40,28 @@ const FeesHistoryList = () => {
   const closeEditFeeModal = () => {
     setEditFeeModalOpen(false); 
     setSelectedHistory(null); 
+  };
+  
+  const handleDeleteFeeHistory = (history) => {
+    setHistoryToDelete(history); 
+    setDeleteFeeModalOpen(true); 
+  };
+
+  const handleDeleteConfirm = () => {
+    if (historyToDelete) {
+      dispatch(deleteFeeHistory(historyToDelete._id))
+        .then(() => {
+          setDeleteFeeModalOpen(false); 
+          setHistoryToDelete(null); 
+          dispatch(listFeesHistories());
+        })
+        .catch(error => console.error(error));
+    }
+  };
+
+  const closeDeleteFeeModal = () => {
+    setDeleteFeeModalOpen(false);
+    setHistoryToDelete(null);
   };
 
   useEffect(() => {
@@ -86,7 +110,7 @@ const FeesHistoryList = () => {
                 </button>
                 <button 
                 className="text-indigo-950 hover:text-red-700 mt-3 ml-2"
-                // onClick={() => handleDeleteHistory(history)}  
+                onClick={() => handleDeleteFeeHistory(history)}  
                 >
                   <FaTrash />
                 </button>
@@ -101,7 +125,12 @@ const FeesHistoryList = () => {
         onClose={closeEditFeeModal} 
         historyData={selectedHistory} 
       />
-
+      <DeleteModal 
+        isOpen={isDeleteFeeModalOpen} 
+        onClose={closeDeleteFeeModal} 
+        onConfirm={handleDeleteConfirm} 
+        toBeDeleted="fee history"
+      />
     </div>
   )
 }
