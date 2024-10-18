@@ -3,6 +3,7 @@ import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { listFeesHistories } from '../../actions/fees.actions';
 import AddFeesHistoryModal from './AddFeesHistoryModal';
+import EditFeesHistoryModal from '../edit-form/EditFeesHistoryModal';
 
 
 const FeesHistoryList = () => {
@@ -15,6 +16,9 @@ const FeesHistoryList = () => {
   const { userInfo } = auth;
 
   const [isModalOpen, setModalOpen] = useState(false); 
+  const [isEditFeeModalOpen, setEditFeeModalOpen] = useState(false);
+  const [selectedHistory, setSelectedHistory] = useState({}); 
+
 
   const handleAddNewFeesHistory = () => {
     setModalOpen(true); 
@@ -22,6 +26,18 @@ const FeesHistoryList = () => {
 
   const closeModal = () => {
     setModalOpen(false); 
+  };
+  
+  const handleEdiFeetHistory = (history) => {
+    console.log("Edit Icon clicked", history);
+    
+    setSelectedHistory(history); 
+    setEditFeeModalOpen(true); 
+  };
+
+  const closeEditFeeModal = () => {
+    setEditFeeModalOpen(false); 
+    setSelectedHistory(null); 
   };
 
   useEffect(() => {
@@ -64,7 +80,7 @@ const FeesHistoryList = () => {
               <td className="py-6 px-8 flex space-x-6">
                 <button 
                 className="text-indigo-950 hover:text-blue-700 mt-3 ml-2"
-                // onClick={() => handleEditHistory(history)}
+                onClick={() => handleEdiFeetHistory(history)}
                 >
                   <FaEdit />
                 </button>
@@ -80,6 +96,11 @@ const FeesHistoryList = () => {
         </tbody>
       </table>
       <AddFeesHistoryModal isOpen={isModalOpen} onClose={closeModal} /> 
+      <EditFeesHistoryModal 
+        isOpen={isEditFeeModalOpen} 
+        onClose={closeEditFeeModal} 
+        historyData={selectedHistory} 
+      />
 
     </div>
   )

@@ -1,6 +1,9 @@
 import { FEES_HISTORY_CREATE_FAIL, FEES_HISTORY_CREATE_REQUEST, FEES_HISTORY_CREATE_SUCCESS, FEES_HISTORY_FAIL, 
     FEES_HISTORY_REQUEST, 
-    FEES_HISTORY_SUCCESS } from "../constants/fees.constants";
+    FEES_HISTORY_SUCCESS, 
+    FEES_HISTORY_UPDATE_FAIL, 
+    FEES_HISTORY_UPDATE_REQUEST,
+    FEES_HISTORY_UPDATE_SUCCESS} from "../constants/fees.constants";
 
 export const feesHistoryReducer = (state = {}, action) => {
     switch (action.type) {
@@ -22,6 +25,19 @@ export const feesHistoryCreateReducer = (state = {}, action) => {
         case FEES_HISTORY_CREATE_SUCCESS:
             return {...state, loading:false, success:true};
         case FEES_HISTORY_CREATE_FAIL:
+            return {...state, loading:false, error:action.payload, success:false};
+        default:
+            return state;
+    }
+}
+
+export const feesHistoryUpdateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case FEES_HISTORY_UPDATE_REQUEST:
+            return {...state, loading:true};
+        case FEES_HISTORY_UPDATE_SUCCESS:
+            return {...state, loading:false, success:true};
+        case FEES_HISTORY_UPDATE_FAIL:
             return {...state, loading:false, error:action.payload, success:false};
         default:
             return state;

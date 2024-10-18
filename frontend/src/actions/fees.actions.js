@@ -4,7 +4,10 @@ import { FEES_HISTORY_CREATE_FAIL,
     FEES_HISTORY_CREATE_SUCCESS, 
     FEES_HISTORY_FAIL, 
     FEES_HISTORY_REQUEST, 
-    FEES_HISTORY_SUCCESS } from "../constants/fees.constants";
+    FEES_HISTORY_SUCCESS, 
+    FEES_HISTORY_UPDATE_FAIL, 
+    FEES_HISTORY_UPDATE_REQUEST,
+    FEES_HISTORY_UPDATE_SUCCESS} from "../constants/fees.constants";
 import { toast } from "react-toastify";
 
 export const listFeesHistories = () => async(dispatch, getState) => {
@@ -79,3 +82,35 @@ export const listFeesHistories = () => async(dispatch, getState) => {
         dispatch({type: FEES_HISTORY_CREATE_FAIL, payload: errorMsg})
         toast.error(errorMsg);
     }}
+    
+export const feesHistoryUpdation = (historyID, formData) => async(dispatch, getState) =>{
+    try {
+        dispatch({type: FEES_HISTORY_UPDATE_REQUEST});
+
+        const { auth: {userInfo} } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userInfo.token}`,
+                "Content-Type": "application/json" 
+            },
+            withCredentials:true
+        };       
+        const { data } = await axios.put(`/api/fees/history/edit/${historyID}`,formData,config);
+
+        dispatch({type: FEES_HISTORY_UPDATE_SUCCESS, payload: data});
+        if(data.success){
+            toast.success(data.message);
+        }
+        
+    } catch (error) {
+        const errorMsg = 
+        error.response && error.response.data.message
+       ? error.response.data.message
+       : error.message;
+
+       dispatch({type: FEES_HISTORY_UPDATE_FAIL, payload: errorMsg})
+       toast.error(errorMsg);
+       
+    }}
+   

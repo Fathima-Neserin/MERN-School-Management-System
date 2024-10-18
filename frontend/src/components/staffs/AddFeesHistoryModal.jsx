@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from "react-select";
-
 import { toast } from 'react-toastify';
 import { addNewFeesHistory } from '../../actions/fees.actions';
 
