@@ -27,7 +27,7 @@ const LibraryHistorySchema = new mongoose.Schema({
         },
     status:{
         type:String,
-        enum: ["Available", "Not Availble"]
+        enum: ["Available", "Not Available"]
     },
      returnDate:{
         type: String,

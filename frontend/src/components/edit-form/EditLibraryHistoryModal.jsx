@@ -41,12 +41,13 @@ const EditLibraryHistoryModal = ({ isOpen, onClose, historyData }) => {
     });
   };
   
-  const handleSelectChange = (name, value) => {
+  const handleSelectChange = (name, selectedOption) => {
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: selectedOption ? selectedOption.value : null, // Store just the value
     });
   };
+  
 
   useEffect(() => {
     setFormData(historyData); 
